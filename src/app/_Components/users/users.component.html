@@ -1,0 +1,181 @@
+<div class="holder">
+  <h1 class="title">Users</h1>
+  <div class="menu">
+      <table cellspacing="20px">
+          <tr>
+              <td *ngIf="auth.usertype == 'ADMIN' || auth.usertype == 'SUPER'" (click)="currentView = 'View'; newUser.formName = 'Edit User:'; showForm = false;" [style.borderBottom]="(currentView == 'View')?'3px solid #107FE8':''">View Users</td>
+              <td *ngIf="auth.usertype == 'ADMIN'" (click)="currentView = 'Upload'; showForm = false;" [style.borderBottom]="(currentView == 'Upload')?'3px solid #107FE8':''">Upload Users</td>
+              <td *ngIf="auth.usertype == 'ADMIN'" (click)="currentView = 'View'; download()">Download Users</td>
+          </tr>
+      </table>
+  </div>  
+  <div class="section" *ngIf="currentView == 'View'">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="input-group">
+          <input class="form-control" type="text" placeholder="Search Users" [(ngModel)]="searchText" (ngModelChange)="searchUsers()"/>
+          <div class="input-group-btn"><button class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>          
+        </div>
+      </div>
+    </div>    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="dataTable overflow center padding">
+          <table cellspacing="0" class="table table-striped table-hover">
+            <thead>    
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Rep Name</th>
+              <th>User Type</th>
+              <th>Active User</th>
+              <th>Last Login</th>
+              <th colspan="2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td style="min-width: 200px;">
+                <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Name:</span>
+                  <input [(ngModel)]="newUser.TITLE" type="text" class="form-control" placeholder="User Name" id="newUserStartLocation"/>
+                </div>    
+                </div>
+              </td>
+              <td style="min-width: 200px;">
+                <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Email:</span>
+                  <input [(ngModel)]="newUser.EMAIL" type="email" class="form-control" placeholder="User Email"/>
+                </div>  
+                </div>
+              </td>
+              <td style="min-width: 200px;">
+                <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Rep Name:</span>
+                  <select class="form-control" [(ngModel)]="newUser.REP_ID">
+                    <option *ngFor="let rep of general.Reps" [value]="rep.ID">{{rep.TITLE}}</option>
+                  </select> 
+                </div>  
+                </div>
+              </td>
+              <td style="min-width: 200px;">
+                <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">User Type:</span>
+                  <select class="form-control" [(ngModel)]="newUser.USER_TYPE">
+                    <option *ngIf="auth.usertype == 'ADMIN'" value="ADMIN">ADMIN</option>
+                    <option *ngIf="auth.usertype == 'ADMIN'" value="EDITOR">EDITOR</option>
+                    <option value="GENERAL">GENERAL</option>
+                    <option *ngIf="auth.usertype == 'ADMIN'" value="SUPER">SUPER</option>
+                  </select> 
+                </div>  
+                </div>
+              </td>
+              <td>
+                <button (click)="saveForm()" type="button" class="btn btn-success form-control">SAVE/ADD</button>
+              </td> 
+              <td>
+              </td>
+              <td>
+              </td>                                                                                                             
+            </tr>
+            <tr *ngFor="let user of finalTable">
+              <td>{{user.TITLE}}</td>
+              <td>{{user.EMAIL}}</td>
+              <td>{{user.REP_NAME}}</td>
+              <td>{{user.USER_TYPE}}</td>
+              <td>{{(user.ISACTIVE == 1) ? 'TRUE' : 'FALSE'}}</td>
+              <td>{{user.LAST_LOGIN}}</td>
+              <td><button type="button" class="btn btn-info" (click)="beginEdit(user)">EDIT</button></td>
+              <td>
+                <button type="button" class="btn btn-danger" *ngIf="user.ISACTIVE" (click)="userAction(user, 'DEACTIVATE')">DEACTIVATE</button>
+                <button *ngIf="!user.ISACTIVE" type="button" class="btn btn-success" (click)="userAction(user, 'ACTIVATE')">ACTIVATE</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>    
+    </div>
+  </div>
+
+  <div class="coverContainer" *ngIf="showForm">
+    <table class="coverContainerTable">
+      <tr>
+        <td>
+          <div class="templateContainer">
+            <div class="templateContainerClose">
+              <i class="fa fa-times-circle pull-right" (click)="showForm = false;"></i>
+            </div>              
+            <div class="formTemplate">
+              <div class="formTemplateTitle">
+                <h4>{{newUser.formName}}</h4>
+              </div>
+              <div class="formTemplateBody">
+                <div class="form-group">
+                  <div class="col-md-9">
+                    <input [(ngModel)]="newUser.ID" type="number" class="form-control" placeholder="User ID" readonly/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <span class="input-group-addon">Name:</span>
+                      <input [(ngModel)]="newUser.TITLE" type="text" class="form-control" placeholder="User Name"/>
+                    </div>                       
+                  </div>
+                </div>            
+                <div class="form-group">
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <span class="input-group-addon">Email:</span>
+                      <input [(ngModel)]="newUser.EMAIL" type="email" class="form-control" placeholder="User Email"/>
+                    </div>                    
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <span class="input-group-addon">Rep Name:</span>
+                      <select class="form-control" [(ngModel)]="newUser.REP_ID">
+                        <option *ngFor="let rep of general.Reps" [value]="rep.ID">{{rep.TITLE}}</option>
+                      </select> 
+                    </div>                    
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <span class="input-group-addon">User Type:</span>
+                      <select class="form-control" [(ngModel)]="newUser.USER_TYPE">
+                        <option *ngIf="auth.usertype == 'ADMIN'" value="ADMIN">ADMIN</option>
+                        <option *ngIf="auth.usertype == 'ADMIN'" value="EDITOR">EDITOR</option>
+                        <option value="GENERAL">GENERAL</option>
+                        <option *ngIf="auth.usertype == 'ADMIN'" value="EDITOR">SUPER</option>
+                      </select> 
+                    </div>                      
+                  </div>
+                </div>                                
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <button (click)="saveForm()" type="button" class="btn btn-success pull-right">Save</button>
+                  </div>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>   
+  </div>     
+</div>
+
+
+
+<div class="section" *ngIf="currentView == 'Upload'">
+  <textarea [(ngModel)]="textarea" placeholder="Paste in Pipe Seperated User Data NAME|EMAIL|TYPE"></textarea>
+  <button type="button" class="btn btn-primary" (click)="bulkUpload()">Upload</button>
+</div> 

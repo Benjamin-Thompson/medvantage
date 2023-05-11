@@ -1,0 +1,162 @@
+<div class="holder">
+    <div class="menu">
+        <table cellspacing="20px">
+            <tr>
+                <td (click)="setCurrentRep(); currentView = 'Dashboard'" [style.borderBottom]="(currentView == 'Dashboard')?'3px solid #107FE8':''">Dashboard</td>
+                <td *ngIf="auth.usertype == 'ADMIN'" (click)="activeState = ''; currentView = 'ActiveReports'" [style.borderBottom]="(currentView == 'ActiveReports')?'3px solid #107FE8':''">Active Reports</td>
+                <td *ngIf="auth.usertype == 'ADMIN'" (click)="currentView = 'Downloads'" [style.borderBottom]="(currentView == 'Downloads')?'3px solid #107FE8':''">Downloads</td>
+                
+            </tr>
+        </table>
+    </div>
+
+    <div class="section" *ngIf="currentView == 'Dashboard'">
+        <h1>{{(currentRep) ? currentRep.TITLE : ''}} Commission Dashboard</h1>
+        <div class="input-group" *ngIf="auth.usertype == 'ADMIN' || auth.usertype == 'SUPER'">
+            <span class="input-group-addon">Choose a Rep:</span>
+            <select class="form-control" [(ngModel)]="currentRepID" (ngModelChange)="reportName = ''; setCurrentRep(currentRepID)">
+                <option *ngFor="let rep of general.Reps" [value]="rep.ID">{{rep.TITLE}}</option>
+            </select>
+        </div>
+        <div class="dateChooser">
+            Choose a Date:
+            <app-date-picker></app-date-picker>
+            <!--<button (click)="setCurrentRep(currentRep.ID)" type="button" class="btn btn-primary">Review</button>-->
+        </div>
+        <br>
+        <div class="totalCommission">
+            <span>Total Commissions:</span> {{commissionData.TOTAL_COMMISSIONS | currency:'USD':true:'1.2-2'}}
+        </div>
+        <div *ngIf="auth.usertype == 'ADMIN'" class="panel panel-default">
+            <div class="panel-heading" data-toggle="collapse" data-target="#manual">Manual Entry Section</div>
+            <div id="manual" class="panel-body collapse">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input class="form-control" type="text" placeholder="Category/Title" [(ngModel)]="manualData.TITLE" /></td>
+                            <td><input class="form-control" type="text" placeholder="Description" [(ngModel)]="manualData.DESCRIPTION" /></td>
+                            <td><input class="form-control" type="number" placeholder="Amount" [(ngModel)]="manualData.AMOUNT" /></td>
+                            <td><button (click)="newManualEntry()" class="btn btn-success form-control">Add</button></td>
+                        </tr>
+                        <tr *ngFor="let man of manual">
+                            <td>{{man.TITLE}}</td>
+                            <td>{{man.DESCRIPTION}}</td>
+                            <td>{{man.AMOUNT | currency:'USD':true:'1.2-2'}}</td>
+                            <td><button (click)="removeManualEntry(man)" type="button" class="btn btn-danger">Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>       
+
+        <div class="panel panel-default" *ngIf="activeState || auth.usertype == 'ADMIN'">
+            <div class="panel-heading" data-toggle="collapse" data-target="#comDetail">Commission Detail Section</div>
+            <div id="comDetail" class="panel-body collapse in">
+                <button (click)="showDetail('paid',true, 'PAID DETAILS: GENERAL + OVERRIDES')" class="btn btn-primary">Paid Detail</button>
+                <button (click)="showDetail('cogs',true, 'COGS DETAILS: GENERAL + OVERRIDES')" class="btn btn-primary">COGS Detail</button>
+                <!--<button (click)="showDetail('override',true, 'OVERRIDE PAID DETAILS')" *ngIf="commissionData.OVERRIDE_COMMISSIONS !== 0" class="btn btn-primary">Override Detail</button>-->
+            </div>
+        </div>       
+
+        <div class="panel panel-default" *ngIf="activeState || auth.usertype == 'ADMIN'">
+            <div class="panel-heading" data-toggle="collapse" data-target="#comSum">Commission Summary Section</div>
+            <div id="comSum" class="panel-body collapse in">
+            <table class="commissionTable" cellspacing="10px">
+                <tr>
+                    <td (click)="showDetail('general',false, 'GENERAL COMMISSION')">
+                        <div class="summaryTitle">General Commissions</div>
+                        <div class="summaryNumber">
+                            <span>{{commissionData.GENERAL_COMMISSIONS | currency:'USD':true:'1.2-2'}}</span> <span>USD</span>
+                        </div>
+                    </td>
+                    <td (click)="showDetail('override',false, 'OVERRIDE COMMISSION')" *ngIf="commissionData.OVERRIDE_COMMISSIONS !== 0">
+                        <div class="summaryTitle">Overrides Commissions</div>
+                        <div class="summaryNumber">
+                            <span>{{commissionData.OVERRIDE_COMMISSIONS | currency:'USD':true:'1.2-2'}}</span> <span>USD</span>
+                        </div>
+                    </td>                     
+                    <td (click)="showDetail('paid',false, 'FACILITIES GROSS')">
+                        <div class="summaryTitle">Paid Summary</div>
+                        <div class="summaryNumber">
+                            <span>{{commissionData.PAID_TOTAL | currency:'USD':true:'1.2-2'}}</span> <span>USD</span>
+                        </div>
+                    </td>
+                    <td (click)="showDetail('cogs',false, 'COGS SUMMARY')">
+                        <div class="summaryTitle">COGS Summary</div>
+                        <div class="summaryNumber">
+                            <span>{{commissionData.COG_TOTAL | currency:'USD':true:'1.2-2'}}</span> <span>USD</span>
+                        </div>
+                    </td>   
+                    <td (click)="showDetail('manual',true, 'MANUAL ENTRY DETAIL')" *ngIf="commissionData.MANUAL_COMMISSIONS !== 0">
+                        <div class="summaryTitle">Manual Entry Summary</div>
+                        <div class="summaryNumber">
+                            <span>{{commissionData.MANUAL_COMMISSIONS | currency:'USD':true:'1.2-2'}}</span> <span>USD</span>
+                        </div>
+                    </td>                                                                                
+                </tr>
+            </table>
+            </div>
+        </div>             
+
+        <div class="panel panel-default" *ngIf="reportName !== ''">
+            <div class="panel-heading" data-toggle="collapse" data-target="#comView">{{reportName}}</div>
+            <div id="comView" class="panel-body collapse in">
+                <table cellspacing="10px" class="table table-striped table-hover center">
+                    <thead>
+                    <tr>
+                        <th *ngFor="let col of viewDataColumns">{{col}}</th>
+                    </tr> 
+                    </thead>    
+                    <tbody>               
+                    <tr *ngFor="let row of viewData">
+                        <td *ngFor="let column of viewDataColumns">{{formatData(row[column])}}</td>
+                    </tr>
+                    </tbody>
+                </table> 
+            </div>
+        </div>  
+    </div>
+
+    <div class="section" *ngIf="currentView == 'ActiveReports'">
+        <div class="dateChooser">
+            Choose a Date:
+            <app-date-picker></app-date-picker>
+        </div>
+
+        <div class="currentStatus">
+            <span>Click to toggle Active/InActive</span>
+            <br>
+            <button (click)="viewActiveState()" class="btn btn-primary">View Current Status</button>
+            <button (click)="setActiveState(true)" class="btn btn-success">Set Status: Active!</button>
+            <button (click)="setActiveState(false)" class="btn btn-danger">Set Status: InActive!</button>
+        </div>
+
+        <div class="activeState">
+            <div [style.color]="(activeState == 0) ? 'red' : 'green'">{{(activeState == 0) ? 'INACTIVE' : 'ACTIVE'}}</div>
+        </div>
+    </div>
+
+    <div class="section" *ngIf="currentView == 'Downloads'">
+        <app-date-picker></app-date-picker>
+        <div class="downloads">
+            <div (click)="downloadPaidBDS()">Download Paid BDS Report</div>
+            <div (click)="downloadPaidReps()">Download Paid BDS with Reps Report (From Tool)</div>
+            <div (click)="downloadCOGS()">Download COGS Report</div>
+            <div (click)="downloadCogsReps()">Download COGS with Reps Report (From Tool)</div>
+            <div (click)="downloadCOMMISSION()">Download Commissions Report</div>
+            <div (click)="downloadCOMMISSIONDetail()">Download Commissions Detail Report</div>
+            <div (click)="downloadFacilitiesWithRep()">Download Facilities With Rep Report</div>
+            <div (click)="downloadPaidVsCogs()">Download Rep Paid vs. COGS Report</div> 
+        </div>
+    </div>
+
+   
+</div>

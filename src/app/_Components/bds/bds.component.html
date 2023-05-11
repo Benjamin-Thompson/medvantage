@@ -1,0 +1,187 @@
+<div class="container-fluid"> 
+  <div class="menu">
+    <table>
+      <tr>
+        <td (click)="currentView = 'NewBDS'" [style.borderBottom]="(currentView == 'NewBDS') ? '3px solid #107FE8' : ''">BDS Entry</td>
+        <td *ngIf="auth.usertype == 'ADMIN'" (click)="download()">Download BDS</td>
+        <td *ngIf="auth.usertype == 'ADMIN'" (click)="downloadFacilityWarning()">Download Facility Warnings</td>
+        <!--<td (click)="currentView = 'Mapped'" [style.borderBottom]="(currentView == 'Mapped') ? '3px solid #107FE8' : ''">Review/Update BDS</td>
+        <td (click)="currentView = 'Unmapped'" [style.borderBottom]="(currentView == 'Unmapped') ? '3px solid #107FE8' : ''">Unmapped BDS Data</td>
+        <td (click)="currentView = 'AtRisk'" [style.borderBottom]="(currentView == 'AtRisk') ? '3px solid #107FE8' : ''">At Risk Facilities</td>-->
+      </tr>
+    </table>
+  </div>
+
+  <div class="section" *ngIf="currentView !== 'AtRisk'">
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-info" (click)="searchBDS()">All BDS</button>
+        <button type="button" class="btn btn-info" (click)="searchBDS('','',0, true)">My BDS</button>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary">Today Total BDS Entry <span class="badge">{{(BDSDashboard[0]) ? BDSDashboard[0].COUNTERS : ''}}</span></button>
+        <button type="button" class="btn btn-primary">Today My BDS Entry <span class="badge">{{(BDSDashboard[1]) ? BDSDashboard[1].COUNTERS : ''}}</span></button>
+        <button type="button" class="btn btn-primary">MTD Total BDS Entry <span class="badge">{{(BDSDashboard[2]) ? BDSDashboard[2].COUNTERS : ''}}</span></button>
+        <button type="button" class="btn btn-primary">MTD My BDS Entry <span class="badge">{{(BDSDashboard[3]) ? BDSDashboard[3].COUNTERS : ''}}</span></button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+      <div class="col-md-5">
+        <div class="data">
+          <h4>BDS Static Entry:</h4>
+          <div class="entryTable">
+            <table>
+              <tr>
+                <td>BILLER</td>
+                <td>
+                  <select [(ngModel)]="NewBDSObject.BILLER">
+                    <option *ngFor="let biller of general.Billers" [value]="biller.ID">{{biller.TITLE}}</option>
+                  </select>
+                </td>               
+              </tr>
+              <tr>
+                <td>FACILITY ACRONYM</td>
+                <td>
+                  <select [(ngModel)]="NewBDSObject.FACILITY">
+                    <option *ngFor="let facilitya of general.Facilities" [value]="facilitya.ID">{{facilitya.ACRONYM}}</option>
+                  </select>
+                </td>               
+              </tr>              
+              <tr>
+                <td>FACILITY</td>
+                <td>
+                  <select [(ngModel)]="NewBDSObject.FACILITY">
+                    <option *ngFor="let facilityb of general.Facilities" [value]="facilityb.ID">{{facilityb.TITLE}}</option>
+                  </select>
+                </td>               
+              </tr>
+              <tr>
+                <td>IF_OR_HOME</td>
+                <td>
+                  <select [(ngModel)]="NewBDSObject.IF_OR_HOME">
+                    <option value="IF">IF</option>
+                    <option value="HOME">HOME</option>
+                  </select>
+                </td>               
+              </tr>  
+              <tr>
+                <td>SCAN_DATE</td>
+                <td><input type="date" [(ngModel)]="NewBDSObject.SCAN_DATE"/></td>               
+              </tr>                              
+            </table>
+          </div>
+        </div>  
+      </div> 
+      <div class="col-md-7">
+        <div class="data">
+          <h4>BDS Variable Entry:</h4>
+          <div class="entryTable">
+            <table>               
+              <tr>
+                <td>PATIENT_LAST_NAME</td>
+                <td><input type="text" [(ngModel)]="NewBDSObject.PATIENT_LAST_NAME" id="selectable"/></td>               
+              </tr>
+              <tr>
+                <td>PATIENT_FIRST_NAME</td>
+                <td><input type="text" [(ngModel)]="NewBDSObject.PATIENT_FIRST_NAME"/></td>               
+              </tr>
+              <tr>
+                <td>DATE_OF_SERVICE</td>
+                <td><input type="date" [(ngModel)]="NewBDSObject.DATE_OF_SERVICE"/></td>               
+              </tr>              
+              <tr>
+                <td>TAKE_HOME_SERIAL</td>
+                <td><input type="text" [(ngModel)]="NewBDSObject.TAKEHOMESERIAL"/></td>               
+              </tr>                   
+              <tr>
+                <td>INSURANCE</td>
+                <td><input type="text" [(ngModel)]="NewBDSObject.INSURANCE"/></td>               
+              </tr>                                                                                                            
+              <tr>
+                <td colspan="2">
+                  <button type="button" class="btn btn-success form-control" (click)="saveForm()">Save</button> 
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>              
+      </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="row maxheight">
+      <div class="col-md-12 maxheight">
+        <div class="data maxheight">
+          <table class="holderTable maxheight maxwidth overflow table-striped center table-hover">
+            <thead>
+            <tr>
+              <th>ACTION</th>              
+              <th>BILLER</th>
+              <th>FACILITY</th>
+              <th>PATIENT_LAST_NAME</th>
+              <th>PATIENT_FIRST_NAME</th>
+              <th>DATE_OF_SERVICE</th>
+              <th>SCAN_DATE</th>
+              <th>IF_OR_HOME</th>
+              <th>INSURANCE</th>
+              <th>TAKEHOMESERIAL</th>
+              <th>CREATED BY</th>
+              <th>CREATED DATE</th>
+              <th>MODIFIED BY</th>
+              <th>MODIFIED DATE</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td></td>             
+              <td><div class="input-group"><input type="text" placeholder="BILLER SEARCH" [(ngModel)]="BillerSearch" class="form-control"/><div class="input-group-btn"><button (click)="searchBDS(BillerSearch, 'BILLER_NAME', 0)" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button></div></div></td>
+              <td><div class="input-group"><input type="text" placeholder="FACILITY SEARCH" [(ngModel)]="FacilitySearch" class="form-control"/><div class="input-group-btn"><button (click)="searchBDS(FacilitySearch, 'FACILITY_NAME', 0)" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button></div></div></td>
+              <td colspan="2"><div class="input-group"><input type="text" placeholder="PATIENT SEARCH" [(ngModel)]="PATIENTSearch" class="form-control"/><div class="input-group-btn"><button (click)="searchBDS(PATIENTSearch, 'PATIENT', 0)" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button></div></div></td>
+              <td><div class="input-group"><input type="date" placeholder="DOS SEARCH" [(ngModel)]="ServiceSearch" class="form-control"/><div class="input-group-btn"><button (click)="searchBDS(ServiceSearch, 'DATE_OF_SERVICE', 0)" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button></div></div></td>
+              <td><div class="input-group"><input type="date" placeholder="SCAN DATE SEARCH" [(ngModel)]="ScanSearch" class="form-control"/><div class="input-group-btn"><button (click)="searchBDS(ScanSearch, 'SCAN_DATE', 0)" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button></div></div></td>
+              <td></td>
+              <td><div class="input-group"><input type="text" placeholder="INSURANCE SEARCH" [(ngModel)]="INSURANCESearch" class="form-control"/><div class="input-group-btn"><button (click)="searchBDS(INSURANCESearch, 'INSURANCE', 0)" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button></div></div></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>              
+            <tr *ngFor="let item of finalTable">
+              <td>
+                <button (click)="replaceItem(item)" type="button" class="btn btn-info marginright">View</button>
+                <button (click)="deleteItem(item)" type="button" class="btn btn-danger">Delete</button>
+              </td>                   
+              <td>{{item.BILLER_NAME}}</td>
+              <td>{{item.FACILITY_NAME}}</td>                
+              <td>{{item.PATIENT_LAST_NAME}}</td>
+              <td>{{item.PATIENT_FIRST_NAME}}</td>                
+              <td>{{item.DATE_OF_SERVICE | date}}</td>
+              <td>{{item.SCAN_DATE | date}}</td>                
+              <td>{{item.IF_OR_HOME}}</td>
+              <td>{{item.INSURANCE}}</td>      
+              <td>{{item.TAKEHOMESERIAL}}</td>   
+              <td>{{item.CREATED}}</td>
+              <td>{{item.CREATED_DATE}}</td>
+              <td>{{item.MODIFIED}}</td>    
+              <td>{{item.MODIFIED_DATE}}</td>                              
+            </tr>
+            </tbody>
+          </table>
+        </div>        
+      </div>
+    </div>    
+  </div>
+
+  <!--<div class="section" *ngIf="currentView == 'AtRisk'">
+    <table>
+      <tr>
+        <th>Facility Name</th>
+        <th>Last Entry Date</th>
+        <th>Days Since Last Entry</th>
+      </tr>
+    </table>
+  </div>-->
+</div>

@@ -1,0 +1,128 @@
+<div class="holderUploads">
+  <div class="title">
+    <h1>Upload Report Data</h1>
+  </div>
+  <h4 class="choose">
+    Choose a Report Upload Date:
+  </h4>
+  <div class="billers">
+    <app-date-picker></app-date-picker>
+  </div>  
+  <h4 class="choose">
+    Choose a Report to Upload:
+  </h4>
+  <div class="billers">
+    <div class="biller" (click)="alarm.isLoading = false; updateCurrentBiller(true);">
+      <div class="Abbreviation">COGS</div>
+      <div class="Name">Cost of Goods</div>
+    </div>      
+    <div [style.borderBottom]="(biller.LAST_UPLOAD_MONTH == datePicker.UploadMonth.number && biller.LAST_UPLOAD_YEAR == datePicker.UploadYear.number) ? '3px solid limegreen':'3px solid lightgray'" (click)="alarm.isLoading = false; updateCurrentBiller(false, biller)" class="biller" *ngFor="let biller of general.Billers">
+      <div class="Abbreviation">{{biller.ABBREVIATION}}</div>
+      <div class="Name">{{biller.TITLE}}</div>
+    </div>     
+  </div>
+  <div *ngIf="currentBiller" style="clear:both;">
+    <h4 class="choose">
+      Set Report Details:
+    </h4>
+    <div class="billers">
+      <div *ngIf="currentReport">
+        <h5>Report Details:</h5>
+        <div class="input-group">
+          <span class="input-group-addon">Last Upload Date:</span>
+          <input type="text" class="form-control" [(ngModel)]="currentBiller.LAST_UPLOAD" readonly/>
+        </div>  
+        <div class="input-group">
+          <span class="input-group-addon">Last Upload Month:</span>
+          <input type="text" class="form-control" [(ngModel)]="currentBiller.LAST_UPLOAD_MONTH" readonly/>
+        </div>  
+        <div class="input-group">
+          <span class="input-group-addon">Last Upload Year:</span>
+          <input type="text" class="form-control" [(ngModel)]="currentBiller.LAST_UPLOAD_YEAR" readonly/>
+        </div>                          
+        <div class="input-group">
+          <span class="input-group-addon">Report Title:</span>
+          <input type="text" class="form-control" [(ngModel)]="currentReport.TITLE" />
+        </div>  
+        <div class="input-group">
+          <span class="input-group-addon">Report Sheet Number:</span>
+          <input type="text" class="form-control" [(ngModel)]="currentReport.SHEET_NUMBER" />
+        </div>  
+        <div class="input-group">
+          <span class="input-group-addon">Report Start Row:</span>
+          <input type="text" class="form-control" [(ngModel)]="currentReport.START_ROW" />
+        </div>
+        <div>
+          <button type="button" (click)="saveReport()" class="btn btn-primary form-control">SAVE/UPDATE</button>
+        </div>
+      </div>          
+    </div>
+    <div *ngIf="currentBiller">
+      <h3 class="billerTitle">
+        {{(currentBiller) ? currentBiller.TITLE + ' Report' : ''}}
+      </h3>
+      <div>
+        <h5>Column Mapping</h5>
+        <div>
+          <table>
+            <tr *ngFor="let column of columnMapping">
+              <td>
+                <div class="input-group" style="width:350px;">
+                  <span class="input-group-addon">{{column.MAPPED_COLUMN_NAME}}:</span>
+                  <input type="text" class="form-control" [(ngModel)]="column.RAW_COLUMN_NAME" />
+                  <div class="input-group-btn">
+                    <button (click)="updateColumnMapping(column)" type="button" class="btn btn-primary">UPDATE</button>
+                  </div>
+                </div>  
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="input-group">
+          <input type="file" class="form-control" id="uploadFile"/>
+          <div class="input-group-btn">
+            <button (click)="alarm.totalAmount == null; uploadReport()" class="btn btn-success form-control">Upload</button>
+          </div>
+        </div>
+        <div *ngIf="alarm.isLoading" class="alert alert-{{alarm.alertType}}">
+          <strong>{{alarm.status}}</strong> {{alarm.text}} <strong>{{((alarm.totalAmount) ? alarm.totalAmount : '') | currency:'USD':true:'4.2-2'}}</strong>
+        </div>    
+        <div class="unmapped" *ngIf="unmappedData.length > 0">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>MAP FACILITY</th>
+                <th>CREATE FACILITY</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of unmappedData">
+                <td>
+                  <div class="input-group">
+                    <span class="input-group-addon">{{item.RAW_FACILITY_NAME}}</span>
+                    <select class="form-control" [(ngModel)]="item.FACILITY_ID">
+                      <option *ngFor="let facility of general.Facilities" [value]="facility.ID">
+                        {{facility.TITLE}}
+                      </option>
+                    </select>
+                  </div>  
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input class="form-control" [(ngModel)]="item.FACILITY_NAME"/>
+                  </div>                                   
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2">
+                  <button (click)="bulkUploadFacilityMapping()" type="button" class="btn btn-success pull-right">SAVE FACILITIES</button>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>

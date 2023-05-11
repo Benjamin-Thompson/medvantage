@@ -1,0 +1,69 @@
+.holderUploads {
+    max-height: 100%;
+    overflow: auto;
+}
+.choose {
+    text-align: left;
+}
+
+.billers {
+    text-align: left;
+    width: 100%;
+    display: block;
+    padding: 20px;
+}
+
+.biller {
+    width: 150px;
+    text-align: center;
+    background-color:#265B8D;;
+    color: white;
+    padding: 20px;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    float: left;
+    cursor: pointer;
+}
+
+.biller:hover {
+    background-color: #022E57;
+}
+
+.Abbreviation {
+    font-size: large;
+}
+
+.Name {
+    font-size: small;
+}
+
+.reportDetail {
+    text-align: left;
+}
+
+.columnMapping, .uploadStatus, .unmappedColumns {
+    margin-top: 10px;
+}
+
+.uploadStatus i {
+    color: lightgray;
+    padding-right: 10px;
+}
+.columnMapping table td, .unmappedColumns table td {
+    padding: 10px;
+}
+
+.columnMapping table td input, .unmappedColumns table td select {
+    padding: 5px;
+    width: 150px;
+}
+
+.updateButton {
+    padding: 10px;
+    background-color: #107FE8;
+    color: white;
+    margin: 0px auto;
+    cursor: pointer;
+}

@@ -1,0 +1,168 @@
+.menu {
+    margin-top: 20px;
+}
+
+.menu table {
+    margin-bottom: 20px;
+}
+.menu table td {
+    padding: 5px;
+    border-bottom: 3px solid lightgray;
+    cursor: pointer;
+}
+
+.menu table td:hover {
+    border-bottom: 3px solid #107FE8;
+}
+
+h1 {
+    padding: 0;
+    margin: 0;
+    font-weight: 300;
+}
+
+.section {
+    text-align: left;
+}
+
+.section .dateChooser {
+    margin-top: 10px;
+}
+
+.details .generalTable {
+    display: inline;
+}
+.details .generalTable td {
+    background-color: lightgray;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 3px solid lightgray;
+}
+
+.details .generalTable td:hover {
+    border-bottom: 3px solid #107FE8;
+}
+
+.commissionTable td {
+    width: 225px;
+    background-color: #265B8D;
+    color: white;
+    cursor: pointer;
+    padding: 20px;
+    text-align: center;
+    border: 10px solid white;
+}
+
+.commissionTable td:hover {
+    background-color:#022E57;
+}
+
+.totalCommission {
+    color: limegreen;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.totalCommission span {
+    color: black;
+    font-size: medium;
+}
+
+.manualEntry i {
+    padding-right: 10px;
+    font-size: small;
+}
+
+.manualEntry table {
+    width: 100%;
+}
+
+.manualEntry table td {
+    border: 3px solid white;
+}
+
+.manualEntry table td input {
+    width: 100%;
+    padding: 5px 0px 5px 0px;
+}
+
+.manualEntry table td:nth-child(1) {
+    width: 10%;
+}
+.manualEntry table td:nth-child(2) {
+    width: 40%;
+}
+.manualEntry table td:nth-child(3) {
+    width: 10%;
+}
+.manualEntry table td:nth-child(4) {
+    width: 10%;
+}
+
+.summaryTitle {
+    font-size: small;
+}
+
+.summaryNumber span:first-child {
+    font-size: large;
+}
+
+.summaryNumber span:last-child {
+    font-size: small;
+}
+
+.viewTable {
+    margin-top: 20px;
+}
+
+.viewTable table {
+    width: 100%;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.viewTable th, .viewTable td {
+    padding: 10px;
+}
+
+.viewTable tr:nth-child(odd) {
+    background-color: lightgray;
+}
+
+.currentStatus {
+    margin-top: 20px;
+}
+
+.currentStatus div {
+    padding: 20px;
+    font-size: x-large;
+    color: white;
+    font-weight: 600;   
+    cursor: pointer; 
+}
+
+.currentStatus .active {
+    background-color: #90EE90;
+}
+
+.currentStatus .inactive {
+    background-color: #CE4F35;
+}
+
+.downloads div {
+    padding: 20px;
+    background-color: lightgray;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.downloads div:hover {
+    background-color: #265B8D;
+    color: white;
+}
+
+.activeState {
+    text-align: center;
+    font-size: xx-large;
+}

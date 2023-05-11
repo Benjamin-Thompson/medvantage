@@ -1,0 +1,73 @@
+<div class="holder">
+  <h1 class="title">Billers</h1>
+  <div class="menu">
+      <table cellspacing="20px">
+          <tr>
+              <td *ngIf="auth.usertype == 'ADMIN'" (click)="currentView = 'View'; newUser.formName = 'Edit Biller:'; showForm = false;" [style.borderBottom]="(currentView == 'View')?'3px solid #107FE8':''">View Billers</td>
+              <td *ngIf="auth.usertype == 'ADMIN'" (click)="currentView = 'Upload'; showForm = false;" [style.borderBottom]="(currentView == 'Upload')?'3px solid #107FE8':''">Upload Billers</td>
+              <td *ngIf="auth.usertype == 'ADMIN'" (click)="currentView = 'View'; download()">Download Billers</td>
+          </tr>
+      </table>
+  </div>  
+  <div class="section" *ngIf="currentView == 'View'">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="input-group">
+          <input class="form-control" type="text" placeholder="Search Billers" [(ngModel)]="searchText" (ngModelChange)="searchUsers()"/>
+          <div class="input-group-btn"><button class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>          
+        </div>
+      </div>
+    </div>    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="dataTable overflow center padding">
+          <table cellspacing="0" class="table table-striped table-hover center">
+            <thead>
+            <tr>
+              <th>Biller Name</th>
+              <th>Biller Abbreviation</th>
+              <th colspan="1">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon">Name:</span>
+                    <input [(ngModel)]="newUser.TITLE" type="text" class="form-control" placeholder="Biller Name" id="newUserStartLocation"/>
+                  </div>
+                </div>   
+              </td>
+              <td>
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon">Abbreviation:</span>
+                    <input [(ngModel)]="newUser.ABBREVIATION" type="text" class="form-control" placeholder="Biller Abbreviation"/>
+                  </div>
+                </div>
+              </td>
+              <td><button (click)="saveForm()" type="button" class="btn btn-success form-control">SAVE/ADD</button></td>              
+            </tr>
+            <tr *ngFor="let biller of finalTable">
+              <td>{{biller.TITLE}}</td>
+              <td>{{biller.ABBREVIATION}}</td>
+              <td>
+                <button (click)="beginEdit(biller)" type="button" class="btn btn-info">Edit</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>    
+      </div>
+    </div>      
+  </div> 
+</div>
+
+
+
+
+<div class="section" *ngIf="currentView == 'Upload'">
+  <textarea [(ngModel)]="textarea" placeholder="Paste in Biller Data NAME"></textarea>
+  <button type="button" class="btn btn-primary" (click)="bulkUpload()">Upload</button>
+</div> 

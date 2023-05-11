@@ -1,0 +1,25 @@
+<div class="row fluid-maxheight">
+  <div class="col-md-3 fluid-maxheight" *ngIf="goodLocation.showMenu">
+    <div class="menu fluid-maxheight">
+        <app-menu></app-menu>
+    </div>
+  </div>
+  <div class="col-md-9 fluid-maxheight" [ngClass]="{'col-md-9':goodLocation.showMenu,'col-md-12':!goodLocation.showMenu}">
+    <button class="button" *ngIf="!goodLocation.showMenu" (click)="goodLocation.changeMenu()">Show Menu</button>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<!--
+<table>
+  <tr>
+    <td *ngIf="menuSerivce.showMenu">
+
+    </td>
+    <td>
+      <div class="section">
+        <router-outlet></router-outlet>
+      </div>
+    </td>
+  </tr>
+</table>
+-->

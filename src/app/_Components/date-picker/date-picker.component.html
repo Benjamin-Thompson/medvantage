@@ -1,0 +1,26 @@
+<div class="holder">
+  <table cellspacing="20px">
+    <tr>
+      <td>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon">Month:</span>
+            <select class="form-control" [(ngModel)]="DatePicker.selectedMonth" (ngModelChange)="DatePicker.changeDate(DatePicker.selectedMonth, null)">
+              <option *ngFor="let month of DatePicker.Months" [ngValue]="month.title">{{month.title}}</option>
+            </select>
+          </div>  
+        </div>        
+      </td>
+      <td>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon">Year:</span>
+            <select class="form-control" [(ngModel)]="DatePicker.selectedYear" (ngModelChange)="DatePicker.changeDate(null, DatePicker.selectedYear)">
+              <option *ngFor="let year of DatePicker.Years" [ngValue]="year.title">{{year.title}}</option>
+            </select> 
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

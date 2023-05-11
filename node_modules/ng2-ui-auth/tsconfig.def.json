@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "sourceMap": true,
+    "declaration": true,
+    "outDir": "commonjs",
+    "types": ["es6-shim"]
+  },
+  "files": [
+    "src/ng2-ui-auth.module.ts"
+  ]
+}

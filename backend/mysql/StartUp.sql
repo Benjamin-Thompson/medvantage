@@ -1,0 +1,366 @@
+-- Creating medvantage Database
+DROP DATABASE IF EXISTS medvantage;
+CREATE DATABASE IF NOT EXISTS medvantage;
+USE medvantage;
+
+-- Creating Tables
+CREATE TABLE IF NOT EXISTS Users (
+	ID int NOT NULL AUTO_INCREMENT,
+    TITLE varchar(255) NOT NULL,
+    EMAIL varchar(255) NULL,
+    GOOGLE varchar(255) NULL,
+    DISPLAY_NAME varchar(255) NULL,
+    PICTURE varchar(255) NULL,
+    USER_TYPE varchar(255) NOT NULL,
+    LAST_LOGIN datetime NULL,
+    ISACTIVE boolean NULL,
+    REP_ID int NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,
+    
+	primary key (ID),
+    index GOOGLE_INDEX (GOOGLE),
+    unique key USER_EMAIL (EMAIL)
+);
+
+CREATE TABLE IF NOT EXISTS Reps (
+	ID int NOT NULL AUTO_INCREMENT,
+    TITLE varchar(255) NOT NULL,
+    COMMISSION double NULL, 
+    TRUECOMMISSION double NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,
+    
+	primary key (ID),    
+    unique key REP_INDEX (TITLE)
+); 
+
+
+CREATE TABLE IF NOT EXISTS Viewable_Users (
+	ID int NOT NULL AUTO_INCREMENT,
+    USER_ID int NULL,
+    REP_ID_TO_VIEW int NULL,
+	CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,
+    
+	primary key (ID), 
+    unique key UniqueIndex (USER_ID, REP_ID_TO_VIEW)
+);
+
+
+-- DROP TABLE Facilities;
+CREATE TABLE IF NOT EXISTS Facilities (
+    ID INT NOT NULL AUTO_INCREMENT,
+    TITLE VARCHAR(255) NOT NULL,
+	ACRONYM VARCHAR(50) NULL,
+    
+    CREATED_DATE DATE NULL,
+    CREATED_BY INT NULL,
+    MODIFIED_DATE DATE NULL,
+    MODIFIED_BY INT NULL,
+    
+    primary key (ID),
+    unique key FACILITY_INDEX (TITLE)
+);
+
+CREATE TABLE IF NOT EXISTS Facilities_Map (
+	ID int NOT NULL AUTO_INCREMENT,
+	UGLY_FACILITY varchar(255) NULL,
+    FACILITY_ID int NULL,    
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,
+    
+    primary key (ID),
+    unique key FACILITY_INDEX (UGLY_FACILITY)
+);
+
+CREATE TABLE IF NOT EXISTS Facilities_To_Rep (
+	ID int NOT NULL AUTO_INCREMENT,
+    FACILITY_ID int NULL,    
+    REP_ID int NULL,
+    COMMISSION double NULL,
+    TRUECOMMISSION double NULL,
+    COMMISSIONTYPE varchar(50) NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,
+    
+    primary key (ID), 
+    unique key UniqueIndex (FACILITY_ID, REP_ID)
+);
+
+CREATE TABLE Reports (
+	ID int NOT NULL AUTO_INCREMENT,
+    TITLE varchar(255) NULL,
+    START_ROW int NULL,
+    SHEET_NUMBER int NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,    
+    
+	primary key (ID), 
+    unique key UniqueIndex (TITLE)    
+);
+
+CREATE TABLE IF NOT EXISTS Report_Column_Mapping (
+	ID int NOT NULL AUTO_INCREMENT,
+    REPORT_ID int NULL,
+    COLUMN_ORDER_NUMBER int NULL,
+    RAW_COLUMN_NAME varchar(255) NOT NULL,
+    MAPPED_COLUMN_NAME varchar(255) NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,
+    
+    primary key (ID)
+);
+
+CREATE TABLE IF NOT EXISTS Rep_Commissions (
+	ID int NOT NULL AUTO_INCREMENT,
+    REP_ID int NULL,
+    COMMISSION double NULL,
+    UPLOAD_MONTH int NULL,
+    UPLOAD_YEAR int NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,
+    
+    primary key (ID)
+);
+
+CREATE TABLE Status_Report (
+	CURRENT_PROCESS varchar(255) NOT NULL,
+    CURRENT_STATUS varchar(255) NOT NULL,
+    PROCESS_COMPLETE boolean NULL
+);
+
+CREATE TABLE IF NOT EXISTS BDS (
+	ID int NOT NULL AUTO_INCREMENT,
+    BILLER_ID int NULL,
+    FACILITY_ID int NULL,
+    PATIENT_LAST_NAME varchar(255) NULL,
+    PATIENT_FIRST_NAME varchar(255) NULL,
+    DATE_OF_SERVICE date NULL,
+    SCAN_DATE date NULL,
+    IF_OR_HOME varchar(50) NULL,
+    INSURANCE varchar(255) NULL,
+    TAKEHOMESERIAL varchar(255) NULL,
+    MAPPED_TO int NULL,
+    
+    CREATED_DATE datetime NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE datetime NULL,
+    MODIFIED_BY int NULL,
+    
+    primary key (ID)
+);
+
+CREATE TABLE IF NOT EXISTS Billers (
+	ID int NOT NULL AUTO_INCREMENT,
+	TITLE varchar(255) NULL,
+    ABBREVIATION varchar(5) NULL,
+    LAST_UPLOAD datetime NULL,
+    LAST_UPLOAD_MONTH int NULL,
+    LAST_UPLOAD_YEAR int NULL,
+    REPORT_ID int NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,    
+    
+	primary key (ID), 
+    unique key UniqueIndex (TITLE)
+);
+
+CREATE TABLE IF NOT EXISTS Active_Commission_Reports (
+	ID int NOT NULL AUTO_INCREMENT,
+	UPLOAD_MONTH int NULL,
+    UPLOAD_YEAR int NULL,
+    ISACTIVE boolean NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,    
+    
+	primary key (ID)
+);
+
+CREATE TABLE IF NOT EXISTS Logs (
+	ID int NOT NULL AUTO_INCREMENT,
+	USER_ACTION varchar(255) NULL,
+    ACTION_CATEGORY varchar(255) NULL,
+    ACTION_TIME datetime NULL,
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,    
+    
+	primary key (ID)
+);
+
+CREATE TABLE IF NOT EXISTS PaidBDS (
+	ID int NOT NULL AUTO_INCREMENT,
+    LINE_ID int NULL,
+    FACILITY_ID int NULL,
+    FACILITY_NAME varchar(255) NULL, 
+    RAW_FACILITY_NAME varchar(255) NULL,    
+    PATIENT_LAST_NAME varchar(255) NULL,
+    PATIENT_FIRST_NAME varchar(255) NULL,
+    DATE_OF_SERVICE date NULL,
+    PAID_AMOUNT double NULL,
+    PAID_DATE date NULL,
+    INSURANCE_COMPANY varchar(255) NULL,
+	UPLOAD_MONTH int NULL,
+    UPLOAD_YEAR int NULL,
+    BILLER_ID int NULL,
+    BILLER_TITLE varchar(255) NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL,
+    
+    primary key (ID),
+    index UPLOADS_INDEX (UPLOAD_YEAR, UPLOAD_MONTH)
+);
+
+
+CREATE TABLE IF NOT EXISTS Cogs (
+	ID int NOT NULL AUTO_INCREMENT,
+    REP_ID int NULL,
+    REP_NAME varchar(255) NULL,
+    LINE_ID int NULL,
+    FACILITY_ID int NULL,
+    FACILITY_NAME varchar(255) NULL, 
+    RAW_FACILITY_NAME varchar(255) NULL,
+    COG_DATE date NULL,
+    TRANSACTION_TYPE varchar(255) NULL,
+    AMOUNT double NULL,
+    ID_NUM varchar(255) NULL,
+    DESC_NAME varchar(255) NULL,
+    DESCRIPTION varchar(255) NULL,
+	UPLOAD_MONTH int NOT NULL,
+    UPLOAD_YEAR int NOT NULL,    
+    
+    CREATED_DATE date NOT NULL,
+    CREATED_BY int NOT NULL,
+    MODIFIED_DATE date NOT NULL,
+    MODIFIED_BY int NOT NULL,
+    
+    primary key (ID),   
+    index UPLOADS_INDEX (UPLOAD_YEAR, UPLOAD_MONTH) 
+);
+
+
+CREATE TABLE IF NOT EXISTS PaidBDSStaging (
+    REP_NAME varchar(255) NULL,
+	LINE_ID int NULL,    
+    FACILITY_NAME varchar(255) NULL,  
+    PATIENT_LAST_NAME varchar(255) NULL,
+    PATIENT_FIRST_NAME varchar(255) NULL,
+    DATE_OF_SERVICE date NULL,
+    PAID_AMOUNT double NULL,
+    PAID_DATE date NULL,
+    INSURANCE_COMPANY varchar(255) NULL,
+	UPLOAD_MONTH int NULL,
+    UPLOAD_YEAR int NULL,
+    BILLER_ID int NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL
+);
+
+CREATE TABLE IF NOT EXISTS CogsStaging (
+    REP_NAME varchar(255) NULL,
+	LINE_ID int NULL,    
+    FACILITY_NAME varchar(255) NULL, 
+    COG_DATE date NULL,
+    TRANSACTION_TYPE varchar(255) NULL,
+    AMOUNT double NULL,
+    ID_NUM varchar(255) NULL,
+    DESC_NAME varchar(255) NULL,
+    DESCRIPTION varchar(255) NULL,
+	UPLOAD_MONTH int NULL,
+    UPLOAD_YEAR int NULL,
+    
+    CREATED_DATE date NULL,
+    CREATED_BY int NULL,
+    MODIFIED_DATE date NULL,
+    MODIFIED_BY int NULL
+);
+
+CREATE TABLE IF NOT EXISTS Manual_Overrides (
+	ID int NOT NULL AUTO_INCREMENT,
+    REP_ID int NOT NULL,
+    TITLE varchar(255) NULL,
+    AMOUNT double NOT NULL,
+    DESCRIPTION varchar(255) NULL,
+    
+    UPLOAD_MONTH int NOT NULL,
+    UPLOAD_YEAR int NOT NULL,
+    
+    CREATED_DATE date NOT NULL,
+    CREATED_BY int NOT NULL,
+    MODIFIED_DATE date NOT NULL,
+    MODIFIED_BY int NOT NULL,
+    
+    primary key (ID),    
+    index UPLOADS_INDEX (UPLOAD_YEAR, UPLOAD_MONTH)
+);
+
+CREATE TABLE IF NOT EXISTS COMMISSION_DETAIL (
+	ID int NOT NULL AUTO_INCREMENT,
+    REP_ID int NULL,
+    REP_NAME varchar(255) NULL,
+    FACILITY_NAME varchar(255) NULL,
+    PAID_TOTAL double NULL,
+    COG_TOTAL double NULL,
+    COMMISSION double NULL,
+    COMMISSIONTYPE varchar(50) NULL,
+    TOTAL_COMMISSION double NULL,
+	UPLOAD_MONTH int NOT NULL,
+    UPLOAD_YEAR int NOT NULL,   
+    ISACTIVE boolean NULL,
+    primary key (ID),  
+	index UPLOADS_INDEX (UPLOAD_YEAR, UPLOAD_MONTH)    
+);
+
+CREATE TABLE IF NOT EXISTS COMMISSION_TABLE (
+	ID int NOT NULL AUTO_INCREMENT,
+    REP_ID int NULL,
+    REP_NAME varchar(255) NULL,
+    PAID_TOTAL double NULL,
+    COG_TOTAL double NULL,
+    TOTAL_COMMISSIONS double NULL,
+    GENERAL_COMMISSIONS double NULL,
+    OVERRIDE_COMMISSIONS double NULL,
+    MANUAL_COMMISSIONS double NULL,
+	UPLOAD_MONTH int NOT NULL,
+    UPLOAD_YEAR int NOT NULL,
+    ISACTIVE boolean NULL,
+    primary key (ID),  
+	index UPLOADS_INDEX (UPLOAD_YEAR, UPLOAD_MONTH)
+);

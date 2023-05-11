@@ -1,0 +1,121 @@
+  /*<div class="title">Users</div>
+  <div class="actions">
+    <div class="button green"></div>
+    <div class="upload">
+      Upload User File<input type="file" />
+    </div>
+  </div>
+  <div class="search">
+    <input type="text" placeholder="Search Users"/>
+  </div>
+  */
+
+    .menu {
+        margin-top: 20px;
+    }
+
+    .menu table {
+        margin-bottom: 20px;
+    }
+    .menu table td {
+        padding: 5px;
+        border-bottom: 3px solid lightgray;
+        cursor: pointer;
+    }
+
+    .menu table td:hover {
+        border-bottom: 3px solid #107FE8;
+    }
+
+    .section {
+        text-align: left;
+    }
+
+    .section .dateChooser {
+        margin-top: 10px;
+    }  
+
+.dataTable {
+    max-height: 600px;
+}
+  .title {
+    font-size: large;
+    font-weight: bold;
+  }
+
+  .button {
+      padding: 10px;
+      background-color: lightgray;
+      text-align: center;
+      cursor: pointer;
+  }
+
+  .search input {
+      padding: 5px;
+      font-size: medium;
+      border: 1px solid lightgray;
+      text-align: center;
+      width: 60%;
+  }
+
+  .table table {
+      width: 100%;
+      font-size: small;
+      text-align: center;
+      border: 1px solid whitesmoke;
+      padding: 10px;
+  }
+  .table table td, .table table th {
+      border-bottom: 1px solid whitesmoke;
+      padding: 10px;
+  }
+
+  .form {
+    padding: 10px;
+    width: 50%;
+    margin: 0px auto;
+  }
+  .form table {
+      width: 100%;
+      text-align: center;
+      border: 1px solid whitesmoke;
+      padding: 10px;      
+  }
+  .form td {
+      padding: 10px;
+  }
+  .table table tr:odd td {
+      background-color: #e8e8e8;
+  }
+
+  .edit:hover {
+      background-color: lightgray;
+  }
+
+  .edit {
+      padding: 5px;
+      border: 1px solid whitesmoke;
+      cursor: pointer;
+      text-align: center;
+  }
+
+  .green {
+      color:green
+  }
+
+  .blue {
+      color:blue;
+  }
+
+  .red {
+      color: red;
+  }
+
+  .orange {
+      color: orange;
+  }
+
+  textarea {
+      width: 90%;
+      height: 300px;
+  }

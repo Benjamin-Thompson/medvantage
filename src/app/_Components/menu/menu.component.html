@@ -1,0 +1,39 @@
+<div class="holder">
+  <div class="title">
+    <h1>MedVantage</h1>
+    <br>
+    <h4>Web Portal</h4>
+    <span class="version">v{{menuService.version}}</span>
+  </div>
+  <div class="user">
+    <span>{{menuService.auth.username}}</span>
+    <span class="usertype">({{menuService.auth.usertype}})</span>
+    <span class="logout" (click)="menuService.logout()"><i class="fa fa-sign-out"></i></span>
+  </div>
+  <div class="menuChoices">
+    <table>
+      <tr *ngFor="let item of menuService.menuItems">
+        <td (click)="item.goToRoute()">
+          <i class="fa fa-circle" [style.color]="item.color"></i>
+          <span>{{item.title}}</span>
+        </td>
+      </tr>
+      <tr>
+        <td (click)="menuService.changeMenu()">
+          <span>Hide Menu</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!--<div class="viewAs">
+    <div class="titleViewAs">View As:</div>
+    <div class="viewAsSection">
+      <select>
+        <option value="ADMIN">ADMIN</option>
+        <option value="SUPER">SUPER</option>
+        <option value="EDITOR">EDITOR</option>
+        <option *ngFor="let rep of menuService.general.Reps">{{rep.TITLE}}</option>
+      </select>
+    </div>
+  </div>-->
+</div>

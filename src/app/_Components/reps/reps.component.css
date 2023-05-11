@@ -1,0 +1,86 @@
+  /*<div class="title">Users</div>
+  <div class="actions">
+    <div class="button green"></div>
+    <div class="upload">
+      Upload User File<input type="file" />
+    </div>
+  </div>
+  <div class="search">
+    <input type="text" placeholder="Search Users"/>
+  </div>
+  */
+
+    .menu {
+        margin-top: 20px;
+    }
+
+    .menu table {
+        margin-bottom: 20px;
+    }
+    .menu table td {
+        padding: 5px;
+        border-bottom: 3px solid lightgray;
+        cursor: pointer;
+    }
+
+    .menu table td:hover {
+        border-bottom: 3px solid #107FE8;
+    }
+
+  .title {
+    font-size: large;
+    font-weight: bold;
+  }
+
+
+  .dataTable {
+      margin-top: 20px;
+  }
+
+
+  .form {
+    padding: 10px;
+    width: 50%;
+    margin: 0px auto;
+  }
+  .form table {
+      width: 100%;
+      text-align: center;
+      border: 1px solid whitesmoke;
+      padding: 10px;      
+  }
+  .form td {
+      padding: 10px;
+  }
+
+  .edit:hover {
+      background-color: lightgray;
+  }
+
+  .edit {
+      padding: 5px;
+      border: 1px solid whitesmoke;
+      cursor: pointer;
+      text-align: center;
+  }
+
+  .green {
+      color:green
+  }
+
+  .blue {
+      color:blue;
+  }
+
+  .red {
+      color: red;
+  }
+
+  .orange {
+      color: orange;
+  }
+
+  textarea {
+      width: 90%;
+      height: 300px;
+  }

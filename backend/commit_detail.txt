@@ -1,0 +1,13 @@
+This is the very first commit. - 4/26/2017
+
+To Do Items:
+Create side menu for user types
+Create SQL automation file
+
+Completed Items:
+Create home screen - 4/26/2017
+Start project - 4/25/2017
+Set up package.json - 4/25/2017
+Set up mysql - 4/25/2017
+Set up Mongo/Mongoose - 4/25/2017
+Get the correct dependancies - 4/25/2017

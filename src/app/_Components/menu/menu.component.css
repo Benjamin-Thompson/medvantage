@@ -1,0 +1,100 @@
+.holder {
+    background-color: #2E3033;
+    width: 100%;
+    height: 100%;
+    color: white;
+    padding: 20px;
+    position: relative;
+    z-index: 1000;
+}
+
+h1, h4 {
+    padding: 0;
+    margin: 0;
+    font-weight: 300;
+    display: inline;
+}
+
+h4 {
+    font-size: small;
+}
+
+.version {
+    font-size: small;
+    color: orange;
+}
+
+.user {
+    padding: 5px;
+    border-bottom: 1px solid #3F4145;
+}
+
+.user img {
+    width: 20px;
+    height: 20px;
+    vertical-align: bottom;
+}
+
+.user span {
+    font-size: small;
+}
+
+.usertype {
+    color: #265B8D;
+}
+
+.logout, .menuChoices td {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.menuChoices td i {
+    padding-right: 100px;
+}
+
+.logout:hover, .menuChoices td:hover {
+    background-color: #3F4145;
+}
+
+.logout i {
+    color: #CE4F35;
+}
+
+.menuChoices {
+    margin-top: 20px;
+}
+
+.menuChoices table {
+    width: 100%;
+}
+
+.menuChoices td {
+    text-align: left;
+    width: 100%;
+}
+
+.viewAs {
+    margin-top: 20px;
+    background-color: #107FE8;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.viewAs .titleViewAs {
+    padding: 5px;
+}
+
+.viewAs .viewAsSection select {
+    width: 100%;
+    padding: 10px;
+    font-size: medium;
+    text-align: center;
+}
+
+@media (max-width: 1000px) {
+    .holder {
+        height: auto;
+    } 
+}
+
