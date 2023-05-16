@@ -292,7 +292,7 @@ export class DashboardComponent implements OnInit {
 
 
   viewActiveState() {
-      
+      this.activeState = 3;
       let headers = new Headers({ 'Accept': 'application/json' });
       headers.append('Content-Type', `application/json`);
       headers.append('Authorization', `Bearer ${this.auth.token}`);
@@ -306,6 +306,7 @@ export class DashboardComponent implements OnInit {
   }
 
   setActiveState(isActive) {
+      this.activeState = 3;
       let data = {
         isActive: isActive,
         month: this.datePicker.UploadMonth.number,
@@ -319,7 +320,7 @@ export class DashboardComponent implements OnInit {
       this.http.post(this.general.starter + `/api/v2/dashboard/activestate`, JSON.stringify(data), options)
         .map(res => res.json())
         .subscribe(res => {
-
+          this.activeState = Number(res.activeState[0].ISACTIVE);
       }, 
         error => {alert("Invalid Request"); console.log(error);});    
   }  

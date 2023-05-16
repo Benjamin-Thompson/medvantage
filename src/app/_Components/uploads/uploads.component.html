@@ -85,7 +85,7 @@
           </div>
         </div>
         <div *ngIf="alarm.isLoading" class="alert alert-{{alarm.alertType}}">
-          <strong>{{alarm.status}}</strong> {{alarm.text}} <strong>{{((alarm.totalAmount) ? alarm.totalAmount : '') | currency:'USD':true:'4.2-2'}}</strong>
+          <strong>{{alarm.status}}</strong> {{alarm.text}} <strong>{{((alarm.totalAmount) ? alarm.totalAmount : 0) | currency:'USD':true:'4.2-2'}}</strong>
         </div>    
         <div class="unmapped" *ngIf="unmappedData.length > 0">
           <table class="table table-striped table-hover">

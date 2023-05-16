@@ -140,7 +140,7 @@
         </div>
 
         <div class="activeState">
-            <div [style.color]="(activeState == 0) ? 'red' : 'green'">{{(activeState == 0) ? 'INACTIVE' : 'ACTIVE'}}</div>
+            <div [style.color]="(activeState == 0) ? 'red' : (activeState == 1) ? 'green' : 'blue'">{{(activeState == 0) ? 'INACTIVE' : (activeState == 1) ? 'ACTIVE' : 'Loading...'}}</div>
         </div>
     </div>
 
